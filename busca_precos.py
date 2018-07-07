@@ -4,6 +4,7 @@ from configparser import ConfigParser
 class IniciaBuscaDePrecos():
     def __init__(self):
         config = ConfigParser()
+        #TODO: verificar o arquivo config antes de ler
         config.read('config.ini')
         secoes= config.sections()                
         for cada_secao in secoes:
