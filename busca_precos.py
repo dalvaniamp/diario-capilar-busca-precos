@@ -1,7 +1,6 @@
-from pagina_loja import *
+from utils import email_utils
 from configparser import ConfigParser
-from email_utils import *
-from constantes import *
+from setup import constantes
 
 class IniciaBuscaDePrecos():
     def __init__(self):

@@ -1,8 +1,7 @@
-from navegador import *
+from setup import constantes
+from setup import navegador
+from utils import analise_dados
 from selenium import webdriver
-from analise_dados import *
-from constantes import *
-import distance
 
 class PaginaDaLoja():  
     #Classe responsavel por buscar os produtos na loja e retornar seu preco
