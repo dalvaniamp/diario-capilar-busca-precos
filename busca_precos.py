@@ -1,34 +1,38 @@
 from pagina_loja import *
 from configparser import ConfigParser
 from email_utils import *
+from constantes import *
 
 class IniciaBuscaDePrecos():
     def __init__(self):
-        configDTO=self.__serializaConfig()
-        for loja in configDTO:       
-            pagina=PaginaDaLoja(configDTO[loja])
+        lojas=self.__serializaConfig()
+        for loja in lojas:       
+            pagina=PaginaDaLoja(lojas[loja])
             pagina.buscaProduto("Milagre Lola")
             pagina.procuraPrecoDoProduto()    
 
     def __serializaConfig(self):                
-        configDTO=dict()
+        lojas = dict()
         config = ConfigParser()
-        config.read('config.ini')
+        try:
+            config.read(Constantes.NOME_ARQUIVO_CONFIG)            
+        except IOError:
+            EmailUtils.enviaEmail(Constantes.MENSAGEM_CONFIG_NAO_ENCONTRADO)
+            exit()
         for cada_secao in config.sections():         
-            if self.__verificaSecaoDoConfig(config,cada_secao):
-                tempDTO=dict()               
-                for (cada_chave, cada_valor) in config.items(cada_secao):
-                    tempDTO[cada_chave]=cada_valor 
-                configDTO[cada_secao]=tempDTO
-        return configDTO
+                if self.__verificaSecaoDoConfig(config,cada_secao):
+                    dadosDaLoja=dict()               
+                    for (cada_chave, cada_valor) in config.items(cada_secao):
+                        dadosDaLoja[cada_chave]=cada_valor 
+                    lojas[cada_secao]=dadosDaLoja
+        return lojas
 
-    def __verificaSecaoDoConfig(self,config,secao):
-        listaDeCamposDoConfig=['url','xpath_campo_busca','xpath_botao_pesquisar','xpath_grid_resultados','xpath_span_preco']
+    def __verificaSecaoDoConfig(self,config,secao):        
         secaoValida=True
-        for campo in listaDeCamposDoConfig:
+        for campo in Constantes.LISTA_CAMPOS_ARQUIVO_CONFIG:
             if not config.has_option(secao, campo):
                 secaoValida=False
-                EmailUtils.enviaEmail('o config ta zoado lol')
+                EmailUtils.enviaEmail(Constantes.MENSAGEM_CONFIG_INVALIDO.format(secao,campo))
                 break
         return secaoValida
             
