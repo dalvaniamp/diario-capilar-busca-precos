@@ -26,7 +26,9 @@ class AnaliseDeDados():
     @staticmethod
     def Hamming(s, t):
         #Algoritmo de distancia de Hamming
-        #Fonte: http://claresloggett.github.io/python_workshops/improved_hammingdist.html
+        #Fonte: http://claresloggett.github.io/python_workshops/improved_hammingdist.html        
+        s=AnaliseDeDados.__formataTextoParaComparacao(s)
+        t=AnaliseDeDados.__formataTextoParaComparacao(t)        
         if s == t:
             return 0   
         distancia=0         
