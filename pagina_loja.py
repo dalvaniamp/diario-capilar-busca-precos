@@ -1,6 +1,6 @@
+from setup.navegador import Navegador
 from setup import constantes
-from setup import navegador
-from utils import analise_dados
+from utils.analise_dados import AnaliseDeDados
 from selenium import webdriver
 
 class PaginaDaLoja():  
@@ -24,7 +24,7 @@ class PaginaDaLoja():
     @property
     def campoPrecoDosProdutos(self):
         xpath=self.config['resultados_preco']
-        return self.driver.find_elements_by_xpath(xpath)
+        return self.driver.find_element_by_xpath(xpath)
 
     def __init__(self,configDTO):
         self.driver=Navegador()
@@ -41,16 +41,16 @@ class PaginaDaLoja():
     def __procuraMelhorProduto(self):
         distanciaMinima=100
         itemSelecionado=0
-        numeroDeProdutos=Constantes.NUMERO_PRODUTOS_ITERACAO
+        numeroDeProdutos=constantes.NUMERO_PRODUTOS_ITERACAO
         for item in self.campoDescricaoDosProdutos[0:numeroDeProdutos]:
-            distancia=AnaliseDeDados.Hamming(item.text,self.__nomeDoProduto)
+            distancia=AnaliseDeDados.Levenshtein(item.text,self.__nomeDoProduto)
             if distancia < distanciaMinima:
                 itemSelecionado=item
                 distanciaMinima=distancia 
-        return item      
+        return itemSelecionado      
     
     def procuraPrecoDoProduto(self):
         produtoEscolhido=self.__procuraMelhorProduto()
         produtoEscolhido.click()
-        preco = self.spanPreco.text
+        preco = self.campoPrecoDosProdutos.text
         print (preco)

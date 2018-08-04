@@ -1,11 +1,12 @@
-from utils import email_utils
+from utils.email_utils import EmailUtils
 from configparser import ConfigParser
 from setup import constantes
+from pagina_loja import PaginaDaLoja
 
 class IniciaBuscaDePrecos():
     def __init__(self):
         lojas=self.__serializaConfig()
-        for loja in lojas:       
+        for loja in lojas: 
             pagina=PaginaDaLoja(lojas[loja])
             pagina.buscaProduto("Milagre Lola")
             pagina.procuraPrecoDoProduto()    
@@ -14,9 +15,9 @@ class IniciaBuscaDePrecos():
         lojas = dict()
         config = ConfigParser()
         try:
-            config.read(Constantes.NOME_ARQUIVO_CONFIG)            
+            config.read(constantes.NOME_ARQUIVO_CONFIG)            
         except IOError:
-            EmailUtils.enviaEmail(Constantes.MENSAGEM_CONFIG_NAO_ENCONTRADO)
+            EmailUtils.enviaEmail(constantes.MENSAGEM_CONFIG_NAO_ENCONTRADO)
             exit()
         for cada_secao in config.sections():         
                 if self.__verificaSecaoDoConfig(config,cada_secao):
@@ -27,11 +28,11 @@ class IniciaBuscaDePrecos():
         return lojas
 
     def __verificaSecaoDoConfig(self,config,secao):        
-        secaoValida=True
-        for campo in Constantes.LISTA_CAMPOS_ARQUIVO_CONFIG:
+        secaoValida=True        
+        for campo in constantes.LISTA_CAMPOS_ARQUIVO_CONFIG:
             if not config.has_option(secao, campo):
                 secaoValida=False
-                EmailUtils.enviaEmail(Constantes.MENSAGEM_CONFIG_INVALIDO.format(secao,campo))
+                EmailUtils.enviaEmail(constantes.MENSAGEM_CONFIG_INVALIDO.format(secao,campo))
                 break
         return secaoValida
             
