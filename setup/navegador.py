@@ -13,8 +13,12 @@ class Navegador():
     
     def __iniciaNavegador(self):
         chrome_options = Options()  
-        #chrome_options.add_argument("--headless") 
+        chrome_options.add_argument("--headless") 
         self.__driver = webdriver.Chrome(chrome_options=chrome_options)
 
     def init(self):
         pass
+
+
+    def fecha_navegador()
+        self.__driver.quit()

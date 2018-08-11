@@ -5,13 +5,14 @@ from pagina_loja import PaginaDaLoja
 
 class IniciaBuscaDePrecos():
     def __init__(self):
-        lojas=self.__serializaConfig()
+        lojas=self.__serializa_config()
         for loja in lojas: 
             pagina=PaginaDaLoja(lojas[loja])
-            pagina.buscaProduto("Milagre Lola")
-            pagina.procuraPrecoDoProduto()    
+            pagina.busca_produto("Milagre Lola")
+            pagina.procura_preco_do_produto() 
+        PaginaDaLoja.fecha_navegador()
 
-    def __serializaConfig(self):                
+    def __serializa_config(self):                
         lojas = dict()
         config = ConfigParser()
         try:
@@ -20,21 +21,21 @@ class IniciaBuscaDePrecos():
             EmailUtils.enviaEmail(constantes.MENSAGEM_CONFIG_NAO_ENCONTRADO)
             exit()
         for cada_secao in config.sections():         
-                if self.__verificaSecaoDoConfig(config,cada_secao):
-                    dadosDaLoja=dict()               
+                if self.__verifica_secao_do_config(config,cada_secao):
+                    dados_da_loja=dict()               
                     for (cada_chave, cada_valor) in config.items(cada_secao):
-                        dadosDaLoja[cada_chave]=cada_valor 
-                    lojas[cada_secao]=dadosDaLoja
+                        dados_da_loja[cada_chave]=cada_valor 
+                    lojas[cada_secao]=dados_da_loja
         return lojas
 
-    def __verificaSecaoDoConfig(self,config,secao):        
-        secaoValida=True        
+    def __verifica_secao_do_config(self,config,secao):        
+        secao_valida=True        
         for campo in constantes.LISTA_CAMPOS_ARQUIVO_CONFIG:
             if not config.has_option(secao, campo):
-                secaoValida=False
+                secao_valida=False
                 EmailUtils.enviaEmail(constantes.MENSAGEM_CONFIG_INVALIDO.format(secao,campo))
                 break
-        return secaoValida
+        return secao_valida
             
 IniciaBuscaDePrecos()
 

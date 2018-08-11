@@ -2,11 +2,11 @@ from unidecode import *
 
 class AnaliseDeDados():
     @staticmethod
-    def Levenshtein(s, t):
+    def levenshtein(s, t):
         #Algoritmo de distancia de Levenshtein iterativo com duas matrizes.
         #Fonte: http//en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Python
-        s=AnaliseDeDados.__formataTextoParaComparacao(s)
-        t=AnaliseDeDados.__formataTextoParaComparacao(t)
+        s=AnaliseDeDados.__formata_texto_para_comparacao(s)
+        t=AnaliseDeDados.__formata_texto_para_comparacao(t)
         if s == t: return 0
         elif len(s) == 0: return len(t)
         elif len(t) == 0: return len(s)
@@ -24,11 +24,11 @@ class AnaliseDeDados():
         return v1[len(t)]
 
     @staticmethod
-    def Hamming(s, t):
+    def hamming(s, t):
         #Algoritmo de distancia de Hamming
         #Fonte: http://claresloggett.github.io/python_workshops/improved_hammingdist.html        
-        s=AnaliseDeDados.__formataTextoParaComparacao(s)
-        t=AnaliseDeDados.__formataTextoParaComparacao(t)        
+        s=AnaliseDeDados.__formata_texto_para_comparacao(s)
+        t=AnaliseDeDados.__formata_texto_para_comparacao(t)        
         if s == t:
             return 0   
         distancia=0         
@@ -38,7 +38,7 @@ class AnaliseDeDados():
                 distancia += 1
         return distancia
 
-    def __formataTextoParaComparacao(texto):
+    def __formata_texto_para_comparacao(texto):
         #TODO: remover textos desnecessarios (de, para, a...)
         return unidecode(texto.lower())
 
